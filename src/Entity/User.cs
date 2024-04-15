@@ -1,6 +1,6 @@
 
 
-public class User : Base
+public class User : BaseEntity
 {
     private string _name;
 

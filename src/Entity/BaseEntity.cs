@@ -1,4 +1,4 @@
-public class Base
+public class BaseEntity
 {
     private readonly Guid _id;
     private DateTime _createdAt;
@@ -22,7 +22,7 @@ public class Base
         }
     }
 
-    public Base(DateTime? createdAt = null)
+    public BaseEntity(DateTime? createdAt = null)
     {
         _id = Guid.NewGuid();
         _createdAt = createdAt is null ? DateTime.Now : (DateTime) createdAt; 

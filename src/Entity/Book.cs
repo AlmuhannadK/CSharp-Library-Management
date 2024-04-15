@@ -1,4 +1,4 @@
-public class Book : Base
+public class Book : BaseEntity
 {
     private string _title;
     public string Title
@@ -13,8 +13,7 @@ public class Book : Base
         }
     }
 
-    public Book() { }
-    public Book(string title)
+    public Book(string title, DateTime? createdAt = null) : base(createdAt)
     {
         _title = title;
     }
