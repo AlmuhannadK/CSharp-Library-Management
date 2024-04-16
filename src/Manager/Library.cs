@@ -1,32 +1,31 @@
 public class Library
 {
-    private readonly List<Book> _books;
-    private readonly List<User> _users;
+    private readonly IEnumerable<Book> _books;
+    private readonly IEnumerable<User> _users;
 
     public Library()
     {
-        _books = new List<Book>();
-        _users = new List<User>();
+        _books = [];
+        _users = [];
     }
 
 
     // Get all books
-    public List<Book> GetBooks()
+    public IEnumerable<Book> GetBooks()
     {
         return _books;
     }
 
     // Get all users
-    public List<User> GetUser()
+    public IEnumerable<User> GetUsers()
     {
         return _users;
     }
 
-
-    // find books by title
+    // find book by title
     public Book FindBookByTitle(string title)
     {
-        Book? targetBook = _books.Find((book) => book.Title == title);
+        Book? targetBook = _books.ToList().Find((book) => book.Title == title);
         if (targetBook is null)
         {
             Console.WriteLine("Book Not Found!");
@@ -34,10 +33,10 @@ public class Library
         return targetBook;
     }
 
-    // find users by name
+    // find user by name
     public User FindUserByName(string name)
     {
-        User? targetUser = _users.Find((user) => user.Name == name);
+        User? targetUser = _users.ToList().Find((user) => user.Name == name);
         if (targetUser is null)
         {
             Console.WriteLine("User Not Found");
@@ -46,37 +45,54 @@ public class Library
     }
 
     // add new book to library
-    public bool AddBookToLibrary(Book newBook)
+    public void AddBookToLibrary(Book newBook)
     {
         bool bookExists = _books.Contains(newBook);
         if (!bookExists)
         {
-            _books.Add(newBook);
+            _books.Append(newBook);
             Console.WriteLine("New Book Added");
-            return true;
         }
         Console.WriteLine("Book Already Exists in Library");
-        return false;
-
     }
 
     // add new user to library
-    public bool AddUserToLibrary(User newUser)
+    public void AddUserToLibrary(User newUser)
     {
         bool userExists = _users.Contains(newUser);
         if (!userExists)
         {
-            _users.Add(newUser);
+            _users.Append(newUser);
             Console.WriteLine("New Users Added To Library");
-            return true;
         }
         Console.WriteLine("User Already Exists in Library");
-        return false;
     }
 
+
     // delete book by id
+    public IEnumerable<Book> RemoveBookById(Guid id)
+    {
+        Book? targetBook = _books.FirstOrDefault(book => book.Id == id);
+        if (targetBook is not null)
+        {
+            IEnumerable<Book> newCollection = _books.Where(book => book.Id != id);
+            return newCollection;
+        }
+        Console.WriteLine("Book Does Not Exist...");
+        return _books;
+    }
 
     // delete user by id
+    public IEnumerable<User> RemoveUserById(Guid id)
+    {
+        User? targetUser = _users.FirstOrDefault(user => user.Id == id);
+        if (targetUser is not null)
+        {
+            IEnumerable<User> newCollectin = _users.Where(user => user.Id != id);
+        }
+        Console.WriteLine("User Does Not Exist...");
+        return _users;
+    }
 
 
 
