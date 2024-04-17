@@ -21,13 +21,12 @@ public class Library
         return _books;
     }
 
-    // Number of elements in books
     public int GetBooksCount()
     {
         return _books.Count();
     }
 
-    public IEnumerable<Book> SortBooksByDatePaginated(int pageNumber, int recordsPerPage, SortOrder order)
+    public IEnumerable<Book> GetBooksSortedByDatePaginated(int pageNumber, int recordsPerPage, SortOrder order)
     {
         var changedCollection = _books.Skip((pageNumber - 1) * recordsPerPage).Take(recordsPerPage);
 
@@ -49,10 +48,25 @@ public class Library
         return _users;
     }
 
-    // Number of elements in users
     public int GetUsersCount()
     {
         return _users.Count();
+    }
+
+    public IEnumerable<User> GetUsersSortedByDatePaginated(int pageNumber, int recordsPerPage, SortOrder order)
+    {
+        var changedCollection = _users.Skip((pageNumber - 1) * recordsPerPage).Take(recordsPerPage);
+
+        if (order == SortOrder.ASC)
+        {
+            return changedCollection.OrderBy(item => item.CreatedAt);
+        }
+        if (order == SortOrder.DESC)
+        {
+            return changedCollection.OrderByDescending(item => item.CreatedAt);
+        }
+
+        return _users;
     }
 
 
@@ -137,11 +151,5 @@ public class Library
         notification.SendNotificationOnFailure("removing user with id {id}");
         return _users;
     }
-
-
-    // get all books with pagination, sorted by created date
-
-    // get all users with pagination, sorted by created date
-
 
 }

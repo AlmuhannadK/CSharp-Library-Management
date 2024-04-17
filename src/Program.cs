@@ -50,6 +50,8 @@
         libraryWithEmail.AddUserToLibrary(user6, emailService);
         libraryWithEmail.AddUserToLibrary(user7, emailService);
         libraryWithEmail.AddUserToLibrary(user8, emailService);
+        libraryWithEmail.AddUserToLibrary(user9, emailService);
+        libraryWithEmail.AddUserToLibrary(user10, emailService);
 
 
         // add book test 
@@ -68,18 +70,32 @@
         libraryWithEmail.AddBookToLibrary(book13, emailService);
         libraryWithEmail.AddBookToLibrary(book14, emailService);
         libraryWithEmail.AddBookToLibrary(book15, emailService);
+        libraryWithEmail.AddBookToLibrary(book16, emailService);
+        libraryWithEmail.AddBookToLibrary(book17, emailService);
+        libraryWithEmail.AddBookToLibrary(book18, emailService);
+        libraryWithEmail.AddBookToLibrary(book19, emailService);
+        libraryWithEmail.AddBookToLibrary(book20, emailService);
 
 
 
 
 
-        var test = libraryWithEmail.SortBooksByDatePaginated(2, 5, SortOrder.ASC);
+        var sortedBooks = libraryWithEmail.GetBooksSortedByDatePaginated(1, 4, SortOrder.ASC);
 
-        foreach (var item in test)
+        foreach (var item in sortedBooks)
         {
             Console.WriteLine($"Title: {item.Title} -- Date:  {item.CreatedAt}");
         }
 
         Console.WriteLine(libraryWithEmail.GetBooksCount());
+
+        Console.WriteLine("===============================================================");
+
+        var sortedUsers = libraryWithEmail.GetUsersSortedByDatePaginated(1, 4, SortOrder.DESC);
+
+        foreach (var item in sortedUsers)
+        {
+            Console.WriteLine($"Name: {item.Name} -- Date:  {item.CreatedAt}");
+        }
     }
 }
