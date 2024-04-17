@@ -21,17 +21,34 @@ public class Library
         return _books;
     }
 
+    // Number of elements in books
+    public int GetBooksCount()
+    {
+        return _books.Count();
+    }
+
+    public IEnumerable<Book> SortBooksByDatePaginated(int pageNumber, int recordsPerPage, SortOrder order)
+    {
+        var changedCollection = _books.Skip((pageNumber - 1) * recordsPerPage).Take(recordsPerPage);
+
+        if (order == SortOrder.ASC)
+        {
+            return changedCollection.OrderBy(item => item.CreatedAt);
+        }
+        if (order == SortOrder.DESC)
+        {
+            return changedCollection.OrderByDescending(item => item.CreatedAt);
+        }
+
+        return _books;
+    }
+
     // Get all users
     public IEnumerable<User> GetUsers()
     {
         return _users;
     }
 
-    // Number of elements in books
-    public int GetBooksCount()
-    {
-        return _books.Count();
-    }
     // Number of elements in users
     public int GetUsersCount()
     {
@@ -122,20 +139,9 @@ public class Library
     }
 
 
-
-    // use enum => ASC, DESC
-
     // get all books with pagination, sorted by created date
 
     // get all users with pagination, sorted by created date
 
 
 }
-
-/*
-        HOW TO IMPLEMENT PAGINATION FROM ONLINE EXAMPLE
-
-                        var employees = Employee.GetAllEmployees() //Data Source
-                                    .Skip((PageNumber - 1) * RecordsPerPage) //Skip Logic
-                                    .Take(RecordsPerPage).ToList();
-*/
