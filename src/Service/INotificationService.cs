@@ -1,8 +1,7 @@
 public interface INotificationService
 {
-    // `SendNotificationOnSucess` and `SendNotificationOnFailure`
 
-    public void SendNotificationOnSuccess();
+    public void SendNotificationOnSuccess(string message);
 
-    public void SendNotificationOnFailure();
+    public void SendNotificationOnFailure(string message);
 }

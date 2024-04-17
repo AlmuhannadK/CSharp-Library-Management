@@ -3,10 +3,15 @@ public class Library
     private IEnumerable<Book> _books;
     private IEnumerable<User> _users;
 
-    public Library()
+    private INotificationService _notification;
+
+
+    public Library(INotificationService notification)
     {
         _books = [];
         _users = [];
+
+        _notification = notification;
     }
 
 
@@ -35,32 +40,33 @@ public class Library
 
 
     // add new book to library
-    public void AddBookToLibrary(Book newBook)
+    public void AddBookToLibrary(Book newBook, INotificationService notification)
     {
-        bool bookExists = _books.Contains(_books.FirstOrDefault(book => book.Title == newBook.Title));
+        bool bookExists = _books.Any(book => book.Title == newBook.Title);
         if (!bookExists)
         {
             _books = _books.Append(newBook);
-            Console.WriteLine("New Book Added to Library");
+            notification.SendNotificationOnSuccess($"book titled {newBook.Title} has been successfully added");
+
         }
         else
         {
-            Console.WriteLine("Book Already Exists in Library");
+            notification.SendNotificationOnFailure("adding this book");
         }
     }
 
     // add new user to library
-    public void AddUserToLibrary(User newUser)
+    public void AddUserToLibrary(User newUser, INotificationService notification)
     {
-        bool userExists = _users.Contains(_users.FirstOrDefault(user => user.Name == newUser.Name));
+        var userExists = _users.Any(user => user.Name == newUser.Name);
         if (!userExists)
         {
             _users = _users.Append(newUser);
-            Console.WriteLine("New User Added to Library");
+            notification.SendNotificationOnSuccess($"user named {newUser.Name} has been successfully added");
         }
         else
         {
-            Console.WriteLine("User Already Exists in Library");
+            notification.SendNotificationOnFailure("adding this user");
         }
     }
 
@@ -88,31 +94,36 @@ public class Library
 
 
     // delete book by id
-    public IEnumerable<Book> RemoveBookById(Guid id)
+    public IEnumerable<Book> RemoveBookById(Guid id, INotificationService notification)
     {
         Book? targetBook = _books.FirstOrDefault(book => book.Id == id);
         if (targetBook is not null)
         {
             _books = _books.Where(book => book.Id != id);
+            notification.SendNotificationOnSuccess($"book with id: {id} -  has been successfully removed");
             return _books;
         }
-        Console.WriteLine("Book Does Not Exist...");
+        notification.SendNotificationOnFailure($"removing book with id {id}");
         return _books;
     }
 
     // delete user by id
-    public IEnumerable<User> RemoveUserById(Guid id)
+    public IEnumerable<User> RemoveUserById(Guid id, INotificationService notification)
     {
         User? targetUser = _users.FirstOrDefault(user => user.Id == id);
         if (targetUser is not null)
         {
             _users = _users.Where(user => user.Id != id);
+            notification.SendNotificationOnSuccess($"user with id: {id} - has been removed");
+            return _users;
         }
-        Console.WriteLine("User Does Not Exist...");
+        notification.SendNotificationOnFailure("removing user with id {id}");
         return _users;
     }
 
 
+
+    // use enum => ASC, DESC
 
     // get all books with pagination, sorted by created date
 
@@ -122,7 +133,8 @@ public class Library
 }
 
 /*
- Logic to Implement Paging
+        HOW TO IMPLEMENT PAGINATION FROM ONLINE EXAMPLE
+
                         var employees = Employee.GetAllEmployees() //Data Source
                                     .Skip((PageNumber - 1) * RecordsPerPage) //Skip Logic
                                     .Take(RecordsPerPage).ToList();
