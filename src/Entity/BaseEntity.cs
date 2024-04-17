@@ -1,4 +1,4 @@
-public class BaseEntity
+public abstract class BaseEntity
 {
     private readonly Guid _id;
     private DateTime _createdAt;
@@ -22,9 +22,9 @@ public class BaseEntity
         }
     }
 
-    public BaseEntity(DateTime? createdAt = null)
+    public BaseEntity(DateTime? createdAt)
     {
         _id = Guid.NewGuid();
-        _createdAt = createdAt is null ? DateTime.Now : (DateTime) createdAt; 
+        _createdAt = createdAt is null ? DateTime.Now : (DateTime)createdAt;
     }
 }

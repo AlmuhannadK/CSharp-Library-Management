@@ -1,7 +1,7 @@
 public class Library
 {
-    private readonly IEnumerable<Book> _books;
-    private readonly IEnumerable<User> _users;
+    private IEnumerable<Book> _books;
+    private IEnumerable<User> _users;
 
     public Library()
     {
@@ -22,13 +22,55 @@ public class Library
         return _users;
     }
 
+    // Number of elements in books
+    public int GetBooksCount()
+    {
+        return _books.Count();
+    }
+    // Number of elements in users
+    public int GetUsersCount()
+    {
+        return _users.Count();
+    }
+
+
+    // add new book to library
+    public void AddBookToLibrary(Book newBook)
+    {
+        bool bookExists = _books.Contains(_books.FirstOrDefault(book => book.Title == newBook.Title));
+        if (!bookExists)
+        {
+            _books = _books.Append(newBook);
+            Console.WriteLine("New Book Added to Library");
+        }
+        else
+        {
+            Console.WriteLine("Book Already Exists in Library");
+        }
+    }
+
+    // add new user to library
+    public void AddUserToLibrary(User newUser)
+    {
+        bool userExists = _users.Contains(_users.FirstOrDefault(user => user.Name == newUser.Name));
+        if (!userExists)
+        {
+            _users = _users.Append(newUser);
+            Console.WriteLine("New User Added to Library");
+        }
+        else
+        {
+            Console.WriteLine("User Already Exists in Library");
+        }
+    }
+
     // find book by title
     public Book FindBookByTitle(string title)
     {
-        Book? targetBook = _books.ToList().Find((book) => book.Title == title);
+        Book? targetBook = _books.FirstOrDefault(book => book.Title == title);
         if (targetBook is null)
         {
-            Console.WriteLine("Book Not Found!");
+            Console.WriteLine("Book is not available...");
         }
         return targetBook;
     }
@@ -36,36 +78,12 @@ public class Library
     // find user by name
     public User FindUserByName(string name)
     {
-        User? targetUser = _users.ToList().Find((user) => user.Name == name);
+        User? targetUser = _users.FirstOrDefault(user => user.Name == name);
         if (targetUser is null)
         {
-            Console.WriteLine("User Not Found");
+            Console.WriteLine("User is not available...");
         }
         return targetUser;
-    }
-
-    // add new book to library
-    public void AddBookToLibrary(Book newBook)
-    {
-        bool bookExists = _books.Contains(newBook);
-        if (!bookExists)
-        {
-            _books.Append(newBook);
-            Console.WriteLine("New Book Added");
-        }
-        Console.WriteLine("Book Already Exists in Library");
-    }
-
-    // add new user to library
-    public void AddUserToLibrary(User newUser)
-    {
-        bool userExists = _users.Contains(newUser);
-        if (!userExists)
-        {
-            _users.Append(newUser);
-            Console.WriteLine("New Users Added To Library");
-        }
-        Console.WriteLine("User Already Exists in Library");
     }
 
 
@@ -75,8 +93,8 @@ public class Library
         Book? targetBook = _books.FirstOrDefault(book => book.Id == id);
         if (targetBook is not null)
         {
-            IEnumerable<Book> newCollection = _books.Where(book => book.Id != id);
-            return newCollection;
+            _books = _books.Where(book => book.Id != id);
+            return _books;
         }
         Console.WriteLine("Book Does Not Exist...");
         return _books;
@@ -88,7 +106,7 @@ public class Library
         User? targetUser = _users.FirstOrDefault(user => user.Id == id);
         if (targetUser is not null)
         {
-            IEnumerable<User> newCollectin = _users.Where(user => user.Id != id);
+            _users = _users.Where(user => user.Id != id);
         }
         Console.WriteLine("User Does Not Exist...");
         return _users;
@@ -99,6 +117,8 @@ public class Library
     // get all books with pagination, sorted by created date
 
     // get all users with pagination, sorted by created date
+
+
 }
 
 /*
