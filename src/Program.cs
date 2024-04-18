@@ -80,7 +80,7 @@
 
 
 
-        var sortedBooks = libraryWithEmail.GetBooksSortedByDatePaginated(1, 4, SortOrder.ASC);
+        var sortedBooks = libraryWithEmail.GetBooks(1, 4, SortOrder.ASC);
 
         foreach (var item in sortedBooks)
         {
@@ -91,7 +91,7 @@
 
         Console.WriteLine("===============================================================");
 
-        var sortedUsers = libraryWithEmail.GetUsersSortedByDatePaginated(1, 4, SortOrder.DESC);
+        var sortedUsers = libraryWithEmail.GetUsers(1, 4, SortOrder.DESC);
 
         foreach (var item in sortedUsers)
         {

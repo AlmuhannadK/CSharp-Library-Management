@@ -21,12 +21,7 @@ public class Library
         return _books;
     }
 
-    public int GetBooksCount()
-    {
-        return _books.Count();
-    }
-
-    public IEnumerable<Book> GetBooksSortedByDatePaginated(int pageNumber, int recordsPerPage, SortOrder order)
+    public IEnumerable<Book> GetBooks(int pageNumber, int recordsPerPage, SortOrder order)
     {
         var changedCollection = _books.Skip((pageNumber - 1) * recordsPerPage).Take(recordsPerPage);
 
@@ -42,18 +37,18 @@ public class Library
         return _books;
     }
 
+    public int GetBooksCount()
+    {
+        return _books.Count();
+    }
+
     // Get all users
     public IEnumerable<User> GetUsers()
     {
         return _users;
     }
 
-    public int GetUsersCount()
-    {
-        return _users.Count();
-    }
-
-    public IEnumerable<User> GetUsersSortedByDatePaginated(int pageNumber, int recordsPerPage, SortOrder order)
+    public IEnumerable<User> GetUsers(int pageNumber, int recordsPerPage, SortOrder order)
     {
         var changedCollection = _users.Skip((pageNumber - 1) * recordsPerPage).Take(recordsPerPage);
 
@@ -67,6 +62,11 @@ public class Library
         }
 
         return _users;
+    }
+
+    public int GetUsersCount()
+    {
+        return _users.Count();
     }
 
 
